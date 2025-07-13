@@ -1,0 +1,15 @@
+userApi:
+  image: your-user-api-image:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8001
+  env: {}
+
+ecommerceApi:
+  image: your-ecommerce-api-image:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8002
+  env: {} 

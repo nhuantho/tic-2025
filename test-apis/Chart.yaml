@@ -1,0 +1,5 @@
+apiVersion: v2
+name: test-apis
+version: 0.1.0
+description: Helm chart for deploying test-apis microservices
+appVersion: "1.0.0" 

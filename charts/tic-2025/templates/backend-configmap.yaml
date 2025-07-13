@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  labels:
+    app: tic-2025-backend
+
+data:
+  ACCESS_TOKEN_EXPIRE_MINUTES: "{{ .Values.backend.env.ACCESS_TOKEN_EXPIRE_MINUTES | default "30" }}"
+  API_DOCS_DIR: "{{ .Values.backend.env.API_DOCS_DIR | default "api-docs" }}"
+  LOGS_DIR: "{{ .Values.backend.env.LOGS_DIR | default "logs" }}"
+  MAX_CONCURRENT_TESTS: "{{ .Values.backend.env.MAX_CONCURRENT_TESTS | default "10" }}"
+  TEST_TIMEOUT: "{{ .Values.backend.env.TEST_TIMEOUT | default "30" }}" 

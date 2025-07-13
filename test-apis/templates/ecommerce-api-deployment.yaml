@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-api
+  labels:
+    app: ecommerce-api
+spec:
+  replicas: {{ .Values.ecommerceApi.replicaCount }}
+  selector:
+    matchLabels:
+      app: ecommerce-api
+  template:
+    metadata:
+      labels:
+        app: ecommerce-api
+    spec:
+      containers:
+        - name: ecommerce-api
+          image: {{ .Values.ecommerceApi.image }}
+          ports:
+            - containerPort: 8002
+          env:
+            {{- range $key, $value := .Values.ecommerceApi.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }} 
