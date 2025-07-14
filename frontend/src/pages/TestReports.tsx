@@ -82,7 +82,7 @@ const TestReports: React.FC = () => {
   const handleDownloadReport = (filepath: string, filename: string) => {
     // Create a link to download the file
     const link = document.createElement('a');
-    link.href = `http://localhost:8000/api/v1/test-execution/download-report?filepath=${encodeURIComponent(filepath)}`;
+    link.href = `https://apitestgen-api.lab.tekodata.com/api/v1/test-execution/download-report?filepath=${encodeURIComponent(filepath)}`;
     link.download = filename;
     document.body.appendChild(link);
     link.click();

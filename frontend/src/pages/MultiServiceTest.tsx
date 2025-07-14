@@ -100,7 +100,7 @@ const MultiServiceTest: React.FC = () => {
 
   const handleDownloadReport = (filepath: string) => {
     const link = document.createElement('a');
-    link.href = `http://localhost:8000/api/v1/test-execution/download-report?filepath=${encodeURIComponent(filepath)}`;
+    link.href = `https://apitestgen-api.lab.tekodata.com/api/v1/test-execution/download-report?filepath=${encodeURIComponent(filepath)}`;
     link.download = filepath.split('/').pop() || 'multi_service_report.md';
     document.body.appendChild(link);
     link.click();

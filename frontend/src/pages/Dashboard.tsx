@@ -170,7 +170,33 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '24px', background: '#f5f5f5', minHeight: '100vh' }}>
+    <div style={{ padding: '24px', background: '#f5f5f5', minHeight: '100vh', position: 'relative' }}>
+      {/* Floating Mountain Button */}
+      <a
+        href="http://43.199.148.44:8080/dashboard"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: 'fixed',
+          top: 24,
+          right: 24,
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          background: 'rgba(255,255,255,0.95)',
+          borderRadius: 24,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          padding: '8px 16px',
+          cursor: 'pointer',
+          textDecoration: 'none',
+          transition: 'box-shadow 0.2s',
+        }}
+      >
+        <img src="/mountain.svg" alt="Mountain" style={{ width: 32, height: 32, marginRight: 10 }} />
+        <span style={{ fontWeight: 600, color: '#2D3A4A', fontSize: 16 }}>
+          Try Super API Test Gen
+        </span>
+      </a>
       {/* Header Section */}
       <div style={{ marginBottom: 32 }}>
         <Row align="middle" justify="space-between">
