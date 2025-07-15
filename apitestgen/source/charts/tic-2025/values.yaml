@@ -1,0 +1,35 @@
+backend:
+  image: your-backend-image:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8000
+  env:
+    # Database and Redis (must be set by user)
+    DATABASE_URL: "postgresql://apitestgen:apitestgen123@postgres:5432/apitestgen"
+    REDIS_URL: "redis://redis:6379"
+    
+    # Security (must be set by user)
+    SECRET_KEY: "your-secret-key-here"
+    
+    # AI API Keys (optional, but required for respective features)
+    OPENAI_API_KEY: ""
+    DEEPSEEK_API_KEY: ""
+    
+    # Non-sensitive defaults
+    ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+    API_DOCS_DIR: "api-docs"
+    LOGS_DIR: "logs"
+    MAX_CONCURRENT_TESTS: "10"
+    TEST_TIMEOUT: "30"
+
+frontend:
+  image: your-frontend-image:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 3000
+  env: {}
+
+# Global config
+namespace: default 

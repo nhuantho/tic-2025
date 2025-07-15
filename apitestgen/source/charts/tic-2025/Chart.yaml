@@ -1,0 +1,5 @@
+apiVersion: v2
+name: tic-2025
+version: 0.1.0
+description: A Helm chart for deploying tic-2025 backend and frontend
+appVersion: "1.0.0" 

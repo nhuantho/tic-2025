@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tic-2025.fullname" . }}-backend
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "tic-2025.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tic-2025.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: backend
+  template:
+    metadata:
+      labels:
+        {{- include "tic-2025.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: backend
+    spec:
+      containers:
+        - name: backend
+          image: {{ .Values.backend.image }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.backend.service.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "tic-2025.fullname" . }}-backend-config
+            - secretRef:
+                name: {{ include "tic-2025.fullname" . }}-backend-secret
+          {{- if .Values.backend.resources }}
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          {{- end }}
+          {{- if .Values.backend.persistence.enabled }}
+          volumeMounts:
+          - name: api-docs
+            mountPath: /app/api-docs
+          - name: logs
+            mountPath: /app/logs
+          {{- end }}
+      {{- if .Values.backend.persistence.enabled }}
+      volumes:
+      - name: api-docs
+        persistentVolumeClaim:
+          claimName: {{ include "tic-2025.fullname" . }}-backend-api-docs-pvc
+      - name: logs
+        persistentVolumeClaim:
+          claimName: {{ include "tic-2025.fullname" . }}-backend-logs-pvc
+      {{- end }} 

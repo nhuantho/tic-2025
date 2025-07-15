@@ -1,0 +1,120 @@
+backend:
+  image: nhuanbui/tic-2025-backend:latest-v1
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8000
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+    - host: apitestgen-api.lab.tekodata.com
+      paths: ["/"]
+    tls:
+    - secretName: apitestgen-api.lab.tekodata.com-tls
+      hosts:
+        - apitestgen-api.lab.tekodata.com
+  env:
+    # Database and Redis (must be set by user)
+    DATABASE_URL: "postgresql://apitestgen:apitestgen123@apitestgen-postgres.apitestgen.svc:5432/apitestgen"
+    REDIS_URL: "redis://apitestgen-redis.apitestgen.svc:6379"
+
+    # CORS
+    CORS_ALLOW_ORIGINS: "https://apitestgen.lab.tekodata.com,http://apitestgen-frontend.apitestgen.svc:3000"
+    
+    # Security (must be set by user)
+    SECRET_KEY: "51dFyh1uRym87TH2_sWpdiB_GuQshMPah-RIuvo4_Hw"
+    
+    # AI API Keys (optional, but required for respective features)
+    OPENAI_API_KEY: ""
+    DEEPSEEK_API_KEY: ""
+    GEMINI_API_KEY: "AIzaSyCDR8GKkO4021iLXoUyfUOGSP5Pnm6_DrY"
+    
+    # Non-sensitive defaults
+    ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+    API_DOCS_DIR: "api-docs"
+    LOGS_DIR: "logs"
+    MAX_CONCURRENT_TESTS: "10"
+    TEST_TIMEOUT: "30"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  persistence:
+    enabled: true
+    logs:
+      size: 1Gi
+      storageClass: "ceph-rbd-hdd"
+    apiDocs:
+      size: 1Gi
+      storageClass: "ceph-rbd-hdd"
+
+frontend:
+  image: nhuanbui/tic-2025-frontend:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 3000
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+    - host: apitestgen.lab.tekodata.com
+      paths: ["/"]
+    tls:
+    - secretName: apitestgen.lab.tekodata.com-tls
+      hosts:
+        - apitestgen.lab.tekodata.com
+  env: 
+    REACT_APP_API_URL: https://apitestgen-api.lab.tekodata.com
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+postgresql:
+  enabled: true
+  image: postgres:15-alpine
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: "ceph-rbd-hdd"
+  env:
+    POSTGRES_DB: apitestgen
+    POSTGRES_USER: apitestgen
+    POSTGRES_PASSWORD: apitestgen123
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+
+redis:
+  enabled: true
+  image: redis:7-alpine
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: "ceph-rbd-hdd"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+# Global config
+namespace: apitestgen 

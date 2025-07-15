@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-api
+  labels:
+    app: user-api
+spec:
+  type: {{ .Values.userApi.service.type }}
+  ports:
+    - port: {{ .Values.userApi.service.port }}
+      targetPort: 8001
+      protocol: TCP
+      name: http
+  selector:
+    app: user-api 

@@ -1,0 +1,361 @@
+{
+  "info": {
+    "name": "Slack API Collection",
+    "description": "Collection for Slack API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "Post Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"#general\",\n  \"text\": \"Hello, this is a test message!\",\n  \"username\": \"Test Bot\"\n}"
+            },
+            "url": {
+              "raw": "https://slack.com/api/chat.postMessage",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "chat", "postMessage"]
+            }
+          }
+        },
+        {
+          "name": "Update Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"{{channel_id}}\",\n  \"ts\": \"{{message_ts}}\",\n  \"text\": \"Updated message content\"\n}"
+            },
+            "url": {
+              "raw": "https://slack.com/api/chat.update",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "chat", "update"]
+            }
+          }
+        },
+        {
+          "name": "Delete Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"{{channel_id}}\",\n  \"ts\": \"{{message_ts}}\"\n}"
+            },
+            "url": {
+              "raw": "https://slack.com/api/chat.delete",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "chat", "delete"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Channels",
+      "item": [
+        {
+          "name": "List Channels",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://slack.com/api/conversations.list?types=public_channel,private_channel",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "conversations", "list"],
+              "query": [
+                {
+                  "key": "types",
+                  "value": "public_channel,private_channel"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Channel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"test-channel\",\n  \"is_private\": false\n}"
+            },
+            "url": {
+              "raw": "https://slack.com/api/conversations.create",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "conversations", "create"]
+            }
+          }
+        },
+        {
+          "name": "Join Channel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"{{channel_id}}\"\n}"
+            },
+            "url": {
+              "raw": "https://slack.com/api/conversations.join",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "conversations", "join"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://slack.com/api/users.list",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "users", "list"]
+            }
+          }
+        },
+        {
+          "name": "Get User Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://slack.com/api/users.info?user={{user_id}}",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "users", "info"],
+              "query": [
+                {
+                  "key": "user",
+                  "value": "{{user_id}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Set User Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status_text\": \"In a meeting\",\n  \"status_emoji\": \":meeting:\"\n}"
+            },
+            "url": {
+              "raw": "https://slack.com/api/users.profile.set",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "users", "profile", "set"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Files",
+      "item": [
+        {
+          "name": "Upload File",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "channels",
+                  "value": "{{channel_id}}",
+                  "type": "text"
+                },
+                {
+                  "key": "title",
+                  "value": "Uploaded File",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://slack.com/api/files.upload",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "files", "upload"]
+            }
+          }
+        },
+        {
+          "name": "List Files",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://slack.com/api/files.list?limit=20",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "files", "list"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete File",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{slack_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file\": \"{{file_id}}\"\n}"
+            },
+            "url": {
+              "raw": "https://slack.com/api/files.delete",
+              "protocol": "https",
+              "host": ["slack", "com"],
+              "path": ["api", "files", "delete"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "slack_token",
+      "value": "xoxb-your-bot-token-here"
+    },
+    {
+      "key": "channel_id",
+      "value": "C1234567890"
+    },
+    {
+      "key": "user_id",
+      "value": "U1234567890"
+    },
+    {
+      "key": "message_ts",
+      "value": "1234567890.123456"
+    },
+    {
+      "key": "file_id",
+      "value": "F1234567890"
+    }
+  ]
+} 

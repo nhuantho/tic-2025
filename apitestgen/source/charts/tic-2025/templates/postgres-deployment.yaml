@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: tic-2025-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tic-2025-postgres
+  template:
+    metadata:
+      labels:
+        app: tic-2025-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "apitestgen"
+            - name: POSTGRES_USER
+              value: "apitestgen"
+            - name: POSTGRES_PASSWORD
+              value: "apitestgen123"
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc 

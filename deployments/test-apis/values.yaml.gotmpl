@@ -1,0 +1,49 @@
+userApi:
+  image: nhuanbui/tic-2025-user-api:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8001
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+    - host: user-api.lab.tekodata.com
+      paths: ["/"]
+    tls:
+    - secretName: user-api.lab.tekodata.com-tls
+      hosts:
+        - user-api.lab.tekodata.com
+  env:
+    SECRET_KEY: "51dFyh1uRym87TH2_sWpdiB_GuQshMPah-RIuvo4_Hw"
+    ALGORITHM: "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+
+ecommerceApi:
+  image: nhuanbui/tic-2025-ecommerce-api:latest
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8002
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+    - host: ecommerce-api.lab.tekodata.com
+      paths: ["/"]
+    tls:
+    - secretName: ecommerce-api.lab.tekodata.com-tls
+      hosts:
+        - ecommerce-api.lab.tekodata.com
+  env:
+    USER_API_URL: "http://user-api.test-apis.svc:8001"
+    SECRET_KEY: "51dFyh1uRym87TH2_sWpdiB_GuQshMPah-RIuvo4_Hw"
+    ALGORITHM: "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+
+# Global config
+namespace: test-apis 

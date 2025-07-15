@@ -1,0 +1,39 @@
+{{- if .Values.ecommerceApi.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ecommerce-api
+  labels:
+    app: ecommerce-api
+  {{- with .Values.ecommerceApi.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ecommerceApi.ingress.className }}
+  {{- if .Values.ecommerceApi.ingress.tls }}
+  tls:
+    {{- range .Values.ecommerceApi.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.ecommerceApi.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ . }}
+            pathType: Prefix
+            backend:
+              service:
+                name: ecommerce-api
+                port:
+                  number: {{ $.Values.ecommerceApi.service.port }}
+          {{- end }}
+    {{- end }}
+{{- end }} 

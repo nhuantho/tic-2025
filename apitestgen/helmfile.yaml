@@ -1,0 +1,7 @@
+releases:
+- name: apitestgen
+  namespace: apitestgen
+  chart: ./chart
+  values:
+  - ./values.yaml.gotmpl
+  - fullnameOverride: apitestgen 
